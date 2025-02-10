@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container">
+    <div class="card">
+        <img src="{{ food_item.food_image.url }}" class="card-img-top" alt="{{ food_item.title }}">
+        <div class="card-body">
+            <h2 class="card-title">{{ food_item.title }}</h2>
+            <p class="card-text">{{ food_item.description }}</p>
+            <p class="card-text"><strong>Cuisine:</strong> {{ food_item.cuisine }}</p>
+            <p class="card-text"><strong>Original Price:</strong> ${{ food_item.price }}</p>
+
+            <!-- Discounted price (if promo applied) -->
+            {% if discounted_price != food_item.price %}
+                <p class="card-text"><strong>Discounted Price:</strong> <span style="color: green;">${{ discounted_price }}</span></p>
+            {% endif %}
+
+            <p class="card-text">
+                <strong>Made by:</strong> 
+                <a href="{% url 'foodmaker_profile' food_item.foodmaker.id %}">
+                    {{ food_item.foodmaker.user.username }}
+                </a>
+            </p>
+
+            {% if user.is_authenticated and user.role == "Eater" %}
+                <p>Phone Number: {{ foodmaker.phone_number }}</p>
+            {% endif %}
+
+            <!-- Promo Code Form -->
+            <form method="post">
+                {% csrf_token %}
+                <label for="promo_code">Enter Promo Code:</label>
+                <input type="text" name="promo_code" id="promo_code" required>
+                <button type="submit" class="btn btn-primary">Apply</button>
+            </form>
+
+            <!-- Display Promo Code Message -->
+            {% if promo_code_message %}
+                <p style="color: {% if 'saved' in promo_code_message %}green{% else %}red{% endif %};">
+                    {{ promo_code_message }}
+                </p>
+            {% endif %}
+
+            <a href="{% url 'home' %}" class="btn btn-secondary">Back to Home</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

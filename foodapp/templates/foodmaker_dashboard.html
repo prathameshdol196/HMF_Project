@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="mb-4">FoodMaker Dashboard</h2>
+
+<h3 class="mb-3">{{ user.first_name }}</h3>
+
+<!-- Add Food Button -->
+<a href="{% url 'add_food' %}" class="btn btn-primary mb-3">Add Food</a>
+
+<!-- Display Food Items -->
+<h3>Your Food Items</h3>
+{% if food_items %}
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    {% for food in food_items %}
+    <div class="col">
+        <div class="card h-100 shadow-sm">
+            <img src="{{ food.food_image.url }}" class="card-img-top" alt="{{ food.title }}" style="height: 200px; object-fit: cover;">
+            <div class="card-body">
+                <h5 class="card-title">{{ food.title }}</h5>
+                <p class="card-text text-muted">{{ food.description|truncatewords:15 }}</p>
+                <p class="card-text fw-bold">Price: ${{ food.price }}</p>
+            </div>
+            <div class="card-footer d-flex justify-content-between">
+                <a href="{% url 'update_food' food.id %}" class="btn btn-warning btn-sm">Update</a>
+                <a href="{% url 'delete_food' food.id %}" class="btn btn-danger btn-sm">Delete</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+    <p class="text-muted">You haven't added any food items yet.</p>
+{% endif %}
+
+{% endblock %}

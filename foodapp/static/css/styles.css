@@ -1,0 +1,248 @@
+/* styles.css */
+
+/* Reset CSS (optional) */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; 
+}
+
+/* General Styles */
+body {
+
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Open Sans', sans-serif; 
+    background-color: #f8f9fa;
+    color: #333;
+    padding-left: 2rem; /* Add padding to the left of the body */
+    padding-right: 2rem; /* Add padding to the right of the body */
+}
+
+/* Container Padding */
+.container {
+    padding-top: 5%;
+    padding-bottom: 5%;
+}
+
+/* Navbar Padding */
+.navbar {
+    padding-top: 2%;
+    padding-bottom: 2%s;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+/* Footer Styles */
+footer {
+    margin-top: auto;
+    background-color: #f0f0f0;
+    border-top: 1px solid #ddd;
+}
+
+/* Customizing Bootstrap Components */
+.jumbotron {
+    background-color: #e9ecef; 
+    padding: 4rem 2rem;
+}
+
+.btn-primary {
+    background-color: #007bff; 
+}
+
+section {
+    padding-top: 15%;
+    padding-bottom: 15%;
+}
+
+
+.section-with-image {
+    /* Remove the background-image rule from here */
+    padding: 100px 0; 
+    color: #fff; 
+    text-align: center;
+    background-size: cover;
+    background-position: center center;
+    text-align: center; 
+    background-color: rgba(0, 0, 0, 0.5); 
+    mix-blend-mode: multiply; 
+    
+
+  }
+  
+
+/* ################################################# Register ################################################# */
+.register-cards {
+    display: flex; /* Flexbox for horizontal layout */
+    justify-content: space-around; /* Space cards evenly */
+    margin-top: 50px; /* Add some top margin */
+  }
+  
+  .register-card {
+    background-color: #f0f0f0; /* Light gray background */
+    border-radius: 10px;
+    padding: 30px;
+    text-align: center;
+    width: 40%; /* Adjust width as needed */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  }
+  
+  .register-card h3 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  
+  .register-card p {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+  }
+  
+  .register-card a {
+    display: inline-block;
+    padding: 15px 30px;
+    border-radius: 5px;
+    text-decoration: none;
+  }
+
+  /* ######################################################################################################### */
+
+
+
+  /* ################################################### Register Foodmaker ################################################### */
+  .register-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 30px;
+    border-radius: 5px;
+    background-color: #f0f0f0; /* Light gray background */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .register-form h3 {
+    margin-top: 20px;
+  }
+  
+  .register-form label {
+    font-weight: bold;
+  }
+  
+  .register-form input,
+  .register-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+  }
+  
+  .register-form textarea {
+    height: 100px; 
+  }
+  
+  .register-form button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+
+  /* ############################################################################################################################ */
+
+
+/* ################################################### Add Food ################################################################## */
+.add-food-form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 30px;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.add-food-form h2 {
+  margin-bottom: 20px;
+}
+
+.add-food-form label {
+  font-weight: bold;
+}
+
+.add-food-form input[type="text"],
+.add-food-form input[type="number"],
+.add-food-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+
+.add-food-form textarea {
+  height: 100px;
+}
+
+.add-food-form input[type="file"] {
+  margin-bottom: 15px;
+}
+
+.add-food-form button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+
+/* ############################################################################################################################### */
+
+
+/* ################################################## Login ###################################################################### */
+
+.login-form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 30px;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.login-form h2 {
+  margin-bottom: 20px;
+}
+
+.login-form label {
+  font-weight: bold;
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+
+.login-form button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+/* ################################################################################################################################ */
+
+
+/**/
+
+

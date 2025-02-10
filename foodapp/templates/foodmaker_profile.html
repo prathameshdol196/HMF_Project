@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>{{ foodmaker.user.username }}'s Profile</h2>
+<p><strong>First Name:</strong> {{ foodmaker.first_name }}</p>
+<p><strong>Last Name:</strong> {{ foodmaker.last_name }}</p>
+<p><strong>City:</strong> {{ foodmaker.city }}</p>
+<p><strong>Zip Code:</strong> {{ foodmaker.zipcode }}</p>
+<p><strong>business_name:</strong> {{ foodmaker.business_name }}</p>
+
+<h3>Food Items by {{ foodmaker.user.username }}</h3>
+<div class="row">
+    {% for food in food_items %}
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <img src="{{ food.food_image.url }}" class="card-img-top" alt="{{ food.title }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ food.title }}</h5>
+                <p class="card-text">{{ food.description|truncatewords:10 }}</p>
+                <p class="card-text"><strong>Price: ${{ food.price }}</strong></p>
+                <a href="{% url 'food_detail' food.id %}" class="btn btn-info">View More</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+        <p>This food maker has not added any food items yet.</p>
+    {% endfor %}
+</div>
+
+<a href="{% url 'home' %}" class="btn btn-secondary">Back to Home</a>
+
+{% endblock %}
