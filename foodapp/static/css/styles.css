@@ -18,22 +18,28 @@ body {
     font-family: 'Open Sans', sans-serif; 
     background-color: #f8f9fa;
     color: #333;
-    padding-left: 2rem; /* Add padding to the left of the body */
-    padding-right: 2rem; /* Add padding to the right of the body */
+    padding-left: 5%; /* Add padding to the left of the body */
+    padding-right: 5%; /* Add padding to the right of the body */
+    margin-left: 5%;
+    margin-right: 5%;
 }
 
 /* Container Padding */
-.container {
-    padding-top: 5%;
-    padding-bottom: 5%;
-}
+.container {}
+
 
 /* Navbar Padding */
 .navbar {
-    padding-top: 2%;
-    padding-bottom: 2%s;
-    padding-left: 5%;
-    padding-right: 5%;
+    padding-top: 3%;
+    padding-bottom: 5%;
+    padding-left: 10%;
+    padding-right: 10%;
+
+}
+
+.nav-item.active .nav-link {
+  
+  border-bottom: 2px solid #077703 !important;
 }
 
 /* Footer Styles */
@@ -56,23 +62,56 @@ footer {
 section {
     padding-top: 15%;
     padding-bottom: 15%;
+    
 }
 
 
 .section-with-image {
     /* Remove the background-image rule from here */
-    padding: 100px 0; 
+    
     color: #fff; 
     text-align: center;
     background-size: cover;
-    background-position: center center;
+    background-position: relative;
     text-align: center; 
     background-color: rgba(0, 0, 0, 0.5); 
     mix-blend-mode: multiply; 
     
+    
 
   }
+
+
+/* ################################################# Food Cards ################################################## */
+
+.card {
+  min-height: 500px; /* Set a minimum height for the cards */
+  display: flex; /* Use flexbox for better height control */
+  flex-direction: column; 
+}
+
+.card-img-top {
+  flex-shrink: 0; /* Prevent the image from shrinking and affecting card height */
+  height: auto; /* Allow the image to scale while maintaining aspect ratio */
+  max-height: 200px; /* Set a maximum height for the images */
+  object-fit: cover; 
+}
+
+
+.food-detail-card {
+  /* Add these styles to the card in the food_detail.html */
+  max-width: auto; /* Set a maximum width for the card */
+   
+}
+
+.card-img-top-detail {
+  max-height: 500px; /* Set a maximum height for the image */
   
+  object-fit: cover; /* Ensure the image fills the container while maintaining aspect ratio */
+}
+
+/* ############################################################################################################### */
+
 
 /* ################################################# Register ################################################# */
 .register-cards {
@@ -243,6 +282,52 @@ section {
 /* ################################################################################################################################ */
 
 
-/**/
+/* ########################################################## Update Food ################################################################### */
 
+.update-food-form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 30px;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.update-food-form h2 {
+  margin-bottom: 20px;
+}
+
+.update-food-form label {
+  font-weight: bold;
+}
+
+.update-food-form input[type="text"],
+.update-food-form input[type="number"],
+.update-food-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+
+.update-food-form textarea {
+  height: 100px;
+}
+
+.update-food-form input[type="file"] {
+  margin-bottom: 15px;
+}
+
+.update-food-form button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+
+/* ########################################################################################################################################## */
 

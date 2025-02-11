@@ -7,11 +7,19 @@
 
 {% if not user.is_authenticated %}
 
-<section class="section-with-image" style="background-image: url('{% static 'images/background.jpg' %}'); background-size: cover; background-position: center center;"> 
+<section class="section-with-image" 
+style="background-image: 
+    linear-gradient(
+        rgba(0, 0, 0, 0.3), 
+        rgba(0, 0, 0, 0.3)
+        ),
+        url('{% static 'images/background.jpg' %}')"> 
+    
+    
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-md-8 text-center"> 
-          <h1 >Connecting food lovers with local home chefs.</h1>
+          <h1>Connecting food lovers with local home chefs.</h1>
           <p>Enjoy delicious, home-cooked meals delivered to your doorstep.</p>
           <p>Discover a variety of cuisines and find your new favorite home chef.</p>
           <a href="{% url 'register' %}" class="btn btn-success btn-lg">Register Now </a> 
@@ -66,8 +74,17 @@
                 <label for="zipcode">Zip Code:</label>
                 <select name="zipcode" class="form-control">
                     <option value="">All</option>
-                    {% for z in zip_codes %}
-                        <option value="{{ z }}" {% if request.GET.zip_code == z %}selected{% endif %}>{{ z }}</option>
+                    {% for z in zipcodes %}
+                        <option value="{{ z }}" {% if request.GET.zipcode == z %}selected{% endif %}>{{ z }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="foodmaker">FoodMaker:</label>
+                <select name="foodmaker" class="form-control">
+                    <option value="">All</option>
+                    {% for f in foodmakers %}
+                        <option value="{{ f.id }}" {% if request.GET.foodmaker == f.id|slugify %}selected{% endif %}>{{ f.user.username }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -83,7 +100,7 @@
                 <img src="{{ food.food_image.url }}" class="card-img-top" alt="{{ food.title }}">
                 <div class="card-body">
                     <h5 class="card-title">{{ food.title }}</h5>
-                    <p class="card-text">{{ food.description|truncatewords:10 }}</p>
+                    <p class="card-text">{{ food.description|truncatewords:15 }}</p>
                     <p class="card-text"><strong>Price: ${{ food.price }}</strong></p>
                     <p class="card-text">
                         <strong>By:</strong> 

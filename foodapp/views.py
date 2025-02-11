@@ -23,6 +23,8 @@ def home(request):
     cuisine = request.GET.get('cuisine')
     city = request.GET.get('city')
     zipcode = request.GET.get('zipcode')
+    foodmaker = request.GET.get('foodmaker')
+
 
     # Apply filters if selected
     if cuisine:
@@ -31,17 +33,22 @@ def home(request):
         food_items = food_items.filter(foodmaker__city__icontains=city)
     if zipcode:
         food_items = food_items.filter(foodmaker__zipcode=zipcode)
+    if foodmaker:
+        food_items = food_items.filter(foodmaker_id=foodmaker)
 
     # Get distinct values for filters
     cuisines = FoodItem.objects.values_list('cuisine', flat=True).distinct()
     cities = FoodItem.objects.values_list('foodmaker__city', flat=True).distinct()
-    zip_code = FoodItem.objects.values_list('foodmaker__zipcode', flat=True).distinct()
+    zipcode = FoodItem.objects.values_list('foodmaker__zipcode', flat=True).distinct()
+    foodmakers = FoodMakerProfile.objects.all()
+
 
     return render(request, 'home.html', {
         'food_items': food_items,
         'cuisines': cuisines,
         'cities': cities,
         'zipcodes': zipcode,
+        'foodmakers': foodmakers,
     })
 
 

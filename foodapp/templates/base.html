@@ -17,7 +17,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
+                    <li class="nav-item {% if request.path == '/' %}active{% endif %}">
                         <a class="nav-link" href="{% url 'home' %}">Home</a>
                     </li>
                     <li class="nav-item">
@@ -28,11 +28,11 @@
                     </li>
                     {% if user.is_authenticated %}
                         {% if user.role == 'FoodMaker' %}
-                            <li class="nav-item">
+                            <li class="nav-item {% if request.path == '/dashboard/foodmaker/' %}active{% endif %}">
                                 <a class="nav-link" href="{% url 'foodmaker_dashboard' %}">FoodMaker Dashboard</a>
                             </li>
                         {% elif user.role == 'Eater' %}
-                            <li class="nav-item">
+                            <li class="nav-item {% if request.path == '/dashboard/eater/' %}active{% endif %}">
                                 <a class="nav-link" href="{% url 'eater_dashboard' %}">Eater Dashboard</a>
                             </li>
                         {% endif %}
@@ -43,12 +43,10 @@
                             </form>
                         </li>
                     {% else %}
-                        <li class="nav-item">
+                        <li class="nav-item {% if request.path == '/login/' %}active{% endif %}">
                             <a class="nav-link" href="{% url 'login' %}">Login</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'register' %}">Register</a>
-                        </li>
+                        
                     {% endif %}
                 </ul>
             </div>
