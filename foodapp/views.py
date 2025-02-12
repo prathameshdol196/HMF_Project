@@ -52,6 +52,9 @@ def home(request):
     })
 
 
+def about(request):
+    return render(request, 'about.html')
+
 
 def food_detail(request, food_id):
     food_item = get_object_or_404(FoodItem, id=food_id)  # Fetch food by ID

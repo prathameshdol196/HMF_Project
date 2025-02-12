@@ -331,3 +331,38 @@ section {
 
 /* ########################################################################################################################################## */
 
+/* ############################################################# About ################################################################### */
+.features .card {
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.features .card i {
+  color: #007bff; 
+}
+
+.how-it-works .step {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.how-it-works .step i {
+  color: #007bff;
+  margin-bottom: 15px;
+}
+
+/* Add animation effects (optional) */
+@keyframes fadeIn {
+from { opacity: 0; }
+to { opacity: 1; }
+}
+
+.features .card {
+animation: fadeIn 0.5s ease-in-out; 
+}
+
+.how-it-works .step {
+animation: fadeIn 0.5s ease-in-out; 
+}
+/* ####################################################################################################################################### */

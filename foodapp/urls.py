@@ -9,6 +9,8 @@ urlpatterns = [
     path('food/<int:food_id>/', views.food_detail, name='food_detail'),  # Food Detail Page
     path('foodmaker/<int:foodmaker_id>/', views.foodmaker_profile, name='foodmaker_profile'),
 
+    path('about/', views.about, name='about'),
+
 
     path('register/', views.register, name='register'),  # Main registration page
     path('register/foodmaker/', views.register_foodmaker, name='register_foodmaker'),
@@ -27,6 +29,8 @@ urlpatterns = [
     path('add-food/', views.add_food, name='add_food'),
     path('update-food/<int:food_id>/', views.update_food, name='update_food'),
     path('delete-food/<int:food_id>/', views.delete_food, name='delete_food'),
+
+
 
     #path("order/<int:food_id>/", views.place_order, name="place_order"),
     #path("eater/orders/", views.eater_orders, name="eater_orders"),
