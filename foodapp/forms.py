@@ -4,7 +4,7 @@ from .models import FoodMakerProfile, EaterProfile
 class FoodMakerProfileForm(forms.ModelForm):
     class Meta:
         model = FoodMakerProfile
-        fields = ['first_name', 'last_name', 'street_name', 'city', 'zipcode', 'bio', 'business_name', 'address', 'phone_number']
+        fields = ['first_name', 'last_name', 'street_name', 'city', 'state', 'zipcode', 'bio', 'business_name', 'address', 'phone_number']
 
 class EaterProfileForm(forms.ModelForm):
     preferences = forms.CharField(required=False)  # Make preferences optional

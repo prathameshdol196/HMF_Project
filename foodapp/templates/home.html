@@ -88,6 +88,15 @@ style="background-image:
                     {% endfor %}
                 </select>
             </div>
+            <div class="col-md-4">
+                <label for="state">State:</label>
+                <select name="state" class="form-control">
+                    <option value="">All</option>
+                    {% for s in state %}
+                        <option value="{{ s }}" {% if request.GET.state == s %}selected{% endif %}>{{ s }}</option>
+                    {% endfor %}
+                </select>
+            </div>
         </div>
 
         <button type="submit" class="btn btn-secondary mt-2">Filter</button>

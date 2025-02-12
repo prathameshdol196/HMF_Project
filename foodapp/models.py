@@ -32,6 +32,22 @@ class User(AbstractUser):
 
 # FoodMaker Profile Model
 class FoodMakerProfile(models.Model):
+    US_STATES = [
+        ('AL', 'Alabama'), ('AK', 'Alaska'), ('AZ', 'Arizona'), ('AR', 'Arkansas'),
+        ('CA', 'California'), ('CO', 'Colorado'), ('CT', 'Connecticut'), ('DE', 'Delaware'),
+        ('FL', 'Florida'), ('GA', 'Georgia'), ('HI', 'Hawaii'), ('ID', 'Idaho'),
+        ('IL', 'Illinois'), ('IN', 'Indiana'), ('IA', 'Iowa'), ('KS', 'Kansas'),
+        ('KY', 'Kentucky'), ('LA', 'Louisiana'), ('ME', 'Maine'), ('MD', 'Maryland'),
+        ('MA', 'Massachusetts'), ('MI', 'Michigan'), ('MN', 'Minnesota'), ('MS', 'Mississippi'),
+        ('MO', 'Missouri'), ('MT', 'Montana'), ('NE', 'Nebraska'), ('NV', 'Nevada'),
+        ('NH', 'New Hampshire'), ('NJ', 'New Jersey'), ('NM', 'New Mexico'), ('NY', 'New York'),
+        ('NC', 'North Carolina'), ('ND', 'North Dakota'), ('OH', 'Ohio'), ('OK', 'Oklahoma'),
+        ('OR', 'Oregon'), ('PA', 'Pennsylvania'), ('RI', 'Rhode Island'), ('SC', 'South Carolina'),
+        ('SD', 'South Dakota'), ('TN', 'Tennessee'), ('TX', 'Texas'), ('UT', 'Utah'),
+        ('VT', 'Vermont'), ('VA', 'Virginia'), ('WA', 'Washington'), ('WV', 'West Virginia'),
+        ('WI', 'Wisconsin'), ('WY', 'Wyoming')
+    ]
+
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="foodmaker_profile")  
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
@@ -42,6 +58,7 @@ class FoodMakerProfile(models.Model):
     business_name = models.CharField(max_length=100)
     address = models.CharField(max_length=255)
     phone_number = models.CharField(max_length=15)
+    state = models.CharField(max_length=2, choices=US_STATES, default='TX')
     is_subscribed = models.BooleanField(default=False)  # Subscription status
     subscription_expiry = models.DateField(null=True, blank=True)  # Expiry date
 
