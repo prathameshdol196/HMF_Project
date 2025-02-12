@@ -84,6 +84,9 @@ class FoodItem(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     cuisine = models.CharField(max_length=100)
 
+    food_type = models.CharField(max_length=100, default='Snacks')
+    food_protien = models.CharField(max_length=100, default="None")
+
     food_image = models.ImageField(upload_to='food_images/', blank=True, null=True)
 
     def __str__(self):
