@@ -130,6 +130,9 @@ def select_food(request):
     if selected_cities:
         food_items = food_items.filter(foodmaker__city__in=selected_cities)
 
+    foodmakers = FoodMakerProfile.objects.filter(id__in=food_items.values_list('foodmaker_id', flat=True)).prefetch_related("food_items")
+
+
     # Pass results to the template
     return render(request, 'select_food.html', {
         'food_items': food_items,
