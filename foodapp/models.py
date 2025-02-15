@@ -58,7 +58,7 @@ class FoodMakerProfile(models.Model):
     business_name = models.CharField(max_length=100)
     address = models.CharField(max_length=255)
     phone_number = models.CharField(max_length=15)
-    state = models.CharField(max_length=2, choices=US_STATES, default='TX')
+    state = models.CharField(max_length=2, choices=US_STATES)
     is_subscribed = models.BooleanField(default=False)  # Subscription status
     subscription_expiry = models.DateField(null=True, blank=True)  # Expiry date
 

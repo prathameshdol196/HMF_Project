@@ -22,7 +22,7 @@ style="background-image:
           <h1>Connecting food lovers with local home chefs.</h1>
           <p>Enjoy delicious, home-cooked meals delivered to your doorstep.</p>
           <p>Discover a variety of cuisines and find your new favorite home chef.</p>
-          <a href="{% url 'register' %}" class="btn btn-success btn-lg">Register Now </a> 
+          <a href="{% url 'register' %}" class="btn btn-warning btn-lg">Register Now </a> 
         </div>
       </div>
     </div>
@@ -30,101 +30,81 @@ style="background-image:
 
 {% endif %}
 
+<section class="container mt-4">
+    <div class="text-box p-4 bg-light border rounded">
+        <p>Dummy text goes here. This is a placeholder for description. Dummy text goes here. Dummy text.</p>
+        <p>More dummy text for 6 rows. This will be replaced later with actual content. More dummy text.</p>
+        <p>HMF is dedicated to connecting home food cooks (FoodMakers) with food lovers (Eaters) who appreciate homemade meals. We believe in supporting home chefs, providing fresh, healthy, and affordable food options, and fostering a community that values home-cooked meals.</p>
 
-<section>
-<div class="container">
-    {% if messages %}
-        <div class="alert-container">
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}">
-                    {{ message }}
-                </div>
+    </div>
+</section>
+
+
+<section class="container mt-4">
+
+    <form id="foodSearchForm" action="{% url 'select_food' %}" method="GET" target="_blank">
+
+    <label class="font-weight-bold">What do you want to eat tonight?</label>
+    <input type="text" name="q" value="{{ query|default:'' }}" placeholder="Type your favoirite dish..." class="form-control">
+        
+    <label class="mt-3 font-weight-bold">You can select up to 3 cities in your surrounding</label>
+<div class="row">
+    <div class="col-md-4">
+        <select class="form-control" name="city">
+            <option value="">Select City 1</option>
+            {% for city in cities %}
+                <option value="{{ city }}">{{ city }}</option>
             {% endfor %}
-        </div>
-    {% endif %}
+        </select>
+    </div>
 
-    <form method="GET" action="{% url 'home' %}" class="mb-4">
-        <div class="input-group">
-            <input type="text" name="q" value="{{ query|default:'' }}" placeholder="Search for food..." class="form-control">
-            <div class="input-group-append">
-                <button type="submit" class="btn btn-primary">Search</button>
-            </div>
-        </div>
+    <div class="col-md-4">
+        <select class="form-control" name="city">
+            <option value="">Select City 2</option>
+            {% for city in cities %}
+                <option value="{{ city }}">{{ city }}</option>
+            {% endfor %}
+        </select>
+    </div>
 
-        <div class="form-row mt-3">
-            <div class="col-md-4">
-                <label for="cuisine">Cuisine:</label>
-                <select name="cuisine" class="form-control">
-                    <option value="">All</option>
-                    {% for c in cuisines %}
-                        <option value="{{ c }}" {% if request.GET.cuisine == c %}selected{% endif %}>{{ c }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col-md-4">
-                <label for="city">City:</label>
-                <select name="city" class="form-control">
-                    <option value="">All</option>
-                    {% for c in cities %}
-                        <option value="{{ c }}" {% if request.GET.city == c %}selected{% endif %}>{{ c }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col-md-4">
-                <label for="zipcode">Zip Code:</label>
-                <select name="zipcode" class="form-control">
-                    <option value="">All</option>
-                    {% for z in zipcodes %}
-                        <option value="{{ z }}" {% if request.GET.zipcode == z %}selected{% endif %}>{{ z }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col-md-4">
-                <label for="foodmaker">FoodMaker:</label>
-                <select name="foodmaker" class="form-control">
-                    <option value="">All</option>
-                    {% for f in foodmakers %}
-                        <option value="{{ f.id }}" {% if request.GET.foodmaker == f.id|slugify %}selected{% endif %}>{{ f.user.username }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col-md-4">
-                <label for="state">State:</label>
-                <select name="state" class="form-control">
-                    <option value="">All</option>
-                    {% for s in state %}
-                        <option value="{{ s }}" {% if request.GET.state == s %}selected{% endif %}>{{ s }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-        </div>
+    <div class="col-md-4">
+        <select class="form-control" name="city">
+            <option value="">Select City 3</option>
+            {% for city in cities %}
+                <option value="{{ city }}">{{ city }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
 
-        <button type="submit" class="btn btn-secondary mt-2">Filter</button>
-    </form>
+    
+    <label class="mt-4 font-weight-bold">State</label>
+    <select class="form-control">
+        {% for s in states %}
+            <option value="{{ s }}">{{ s }}</option>
+        {% endfor %}
+    </select>
 
-    <div class="row">
-        {% for food in food_items %}
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <img src="{{ food.food_image.url }}" class="card-img-top" alt="{{ food.title }}">
-                <div class="card-body">
-                    <h5 class="card-title">{{ food.title }}</h5>
-                    <p class="card-text">{{ food.description|truncatewords:15 }}</p>
-                    <p class="card-text"><strong>Price: ${{ food.price }}</strong></p>
-                    <p class="card-text">
-                        <strong>By:</strong> 
-                        <a href="{% url 'foodmaker_profile' food.foodmaker.id %}">
-                            {{ food.foodmaker.user.username }}
-                        </a>
-                    </p>
-                    <a href="{% url 'food_detail' food.id %}" class="btn btn-info">View More</a>
-                </div>
-            </div>
-        </div>
+    <label class="mt-3 font-weight-bold">Select Cuisine</label>
+    <label>Select Cuisine:</label>
+    <div>
+        {% for cuisine in cuisines %}
+            <label>
+                <input type="checkbox" name="cuisine" value="{{ cuisine }}"
+                    {% if cuisine in selected_cuisines %}checked{% endif %}>
+                {{ cuisine }}
+            </label>
         {% empty %}
-            <p>No food items available.</p>
+            <p>No cuisines available.</p>
         {% endfor %}
     </div>
+    
+    <button type="submit" class="btn btn-danger btn-block mt-3">Show Me My Food</button>
+    </form>
+</section>
+
+
+
 
 </div>
 </section>

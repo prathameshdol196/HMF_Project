@@ -9,6 +9,8 @@ urlpatterns = [
     path('food/<int:food_id>/', views.food_detail, name='food_detail'),  # Food Detail Page
     path('foodmaker/<int:foodmaker_id>/', views.foodmaker_profile, name='foodmaker_profile'),
 
+    path('select-food/', views.select_food, name='select_food'),
+
     path('about/', views.about, name='about'),
 
 

@@ -8,13 +8,15 @@ from django.contrib.auth.decorators import login_required
 from .models import PromoCode
 from django.utils.timezone import now
 from django.contrib import messages
+from django.db.models import Q
+
 from .models import User
 
 
 User = get_user_model()
 
 
-# Home Page
+'''# Home Page
 def home(request):
     
     food_items = FoodItem.objects.all()  # Fetch all food items
@@ -54,6 +56,86 @@ def home(request):
         'zipcodes': zipcode,
         'state': state,
         'foodmakers': foodmakers,
+    })
+
+'''
+
+# Home Page
+def home(request):
+    food_items = FoodItem.objects.all()  # Fetch all food items
+
+    # Get distinct cuisines from available food items
+    cuisines = FoodItem.objects.values_list('cuisine', flat=True).distinct()
+
+    # Get filter values from request
+    query = request.GET.get('q', '')  # Get search query
+    cities = [request.GET.get(f'city{i}', '') for i in range(1, 4)]  # Get up to 3 selected cities
+    selected_cuisines = request.GET.getlist('cuisine')
+    state = request.GET.get('state')
+
+    # Apply search filter
+    if query:
+        food_items = food_items.filter(
+            Q(title__icontains=query) | Q(description__icontains=query)
+        )
+
+    # Apply multiple city filters
+    selected_cities = [city for city in cities if city]  # Remove empty values
+    if selected_cities:
+        food_items = food_items.filter(foodmaker__city__in=selected_cities)
+
+    # Apply cuisine filter
+    if selected_cuisines:
+        food_items = food_items.filter(cuisine__in=selected_cuisines)
+
+    # Apply state filter
+    if state:
+        food_items = food_items.filter(foodmaker__state=state)
+
+    # Get distinct values for dropdowns
+    all_cities = FoodItem.objects.values_list('foodmaker__city', flat=True).distinct()
+    states = FoodItem.objects.values_list('foodmaker__state', flat=True).distinct()
+    
+    return render(request, 'home.html', {
+        'food_items': food_items,
+        'cuisines': cuisines,
+        'cities': all_cities,
+        'states': states,
+        'selected_cuisines': selected_cuisines,
+        'query': query,
+        'selected_cities': selected_cities,
+    })
+
+
+def select_food(request):
+    # Get search query and selected cuisines
+    query = request.GET.get('q', '')
+    selected_cuisines = request.GET.getlist('cuisine')
+    cities = [request.GET.get(f'city{i}', '') for i in range(1, 4)]
+    selected_cities = [city for city in cities if city]
+
+    # Start with all food items
+    food_items = FoodItem.objects.all()
+
+    # Filter by search query
+    if query:
+        food_items = food_items.filter(
+            Q(title__icontains=query) | Q(description__icontains=query)
+        )
+
+    # Filter by selected cuisines
+    if selected_cuisines:
+        food_items = food_items.filter(cuisine__in=selected_cuisines)
+
+    # Filter by selected cities
+    if selected_cities:
+        food_items = food_items.filter(foodmaker__city__in=selected_cities)
+
+    return render(request, 'select_food.html', {
+        'food_items': food_items,
+        'selected_cuisines': selected_cuisines,
+        'query': query,
+        'selected_cities': selected_cities,
     })
 
 

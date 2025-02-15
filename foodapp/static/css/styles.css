@@ -37,6 +37,11 @@ body {
 
 }
 
+.nav-item{
+  padding-left: 4%;
+  padding-right: 4%;
+}
+
 .nav-item.active .nav-link {
   
   border-bottom: 2px solid #077703 !important;

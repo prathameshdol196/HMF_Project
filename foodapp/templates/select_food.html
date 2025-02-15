@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Food Items</h2>
+
+{% if selected_cuisines %}
+    <p>Showing results for: <strong>{{ selected_cuisines|join:", " }}</strong></p>
+{% endif %}
+{% if selected_cities %}
+    <p>Showing results for cities: <strong>{{ selected_cities|join:", " }}</strong></p>
+{% endif %}
+
+{% if query %}
+    <p>Showing results for: <strong>"{{ query }}"</strong></p>
+{% endif %}
+
+
+<ul>
+    <div class="row">
+        {% for food in food_items %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="{{ food.food_image.url }}" class="card-img-top" alt="{{ food.title }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ food.title }}</h5>
+                    <p class="card-text">{{ food.description|truncatewords:15 }}</p>
+                    <p class="card-text"><strong>Price: ${{ food.price }}</strong></p>
+                    <p class="card-text">
+                        <strong>By:</strong> 
+                        <a href="{% url 'foodmaker_profile' food.foodmaker.id %}">
+                            {{ food.foodmaker.user.username }}
+                        </a>
+                    </p>
+                    <a href="{% url 'food_detail' food.id %}" class="btn btn-info mt-auto">View More</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+            <p>No food items available.</p>
+        {% endfor %}
+    </div>
+</ul>
+
+{% if not food_items %}
+    <p>No food items found.</p>
+{% endif %}
+
+{% endblock %}
