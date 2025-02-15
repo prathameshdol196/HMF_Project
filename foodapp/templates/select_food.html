@@ -1,48 +1,87 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Food Items</h2>
+<h2 style="font-size: 18px; text-align: left;">What do you want to eat tonight?</h2>
 
 {% if selected_cuisines %}
-    <p>Showing results for: <strong>{{ selected_cuisines|join:", " }}</strong></p>
+    <p>Showing results for cuisines: <strong>{{ selected_cuisines|join:", " }}</strong></p>
 {% endif %}
 {% if selected_cities %}
     <p>Showing results for cities: <strong>{{ selected_cities|join:", " }}</strong></p>
 {% endif %}
-
 {% if query %}
     <p>Showing results for: <strong>"{{ query }}"</strong></p>
 {% endif %}
 
-
-<ul>
-    <div class="row">
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>FoodMaker Business Card</th>
+            <th>Food Image</th>
+            <th>Food Details</th>
+            <th>FoodMaker Information</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for food in food_items %}
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <img src="{{ food.food_image.url }}" class="card-img-top" alt="{{ food.title }}">
-                <div class="card-body">
-                    <h5 class="card-title">{{ food.title }}</h5>
-                    <p class="card-text">{{ food.description|truncatewords:15 }}</p>
-                    <p class="card-text"><strong>Price: ${{ food.price }}</strong></p>
-                    <p class="card-text">
-                        <strong>By:</strong> 
-                        <a href="{% url 'foodmaker_profile' food.foodmaker.id %}">
-                            {{ food.foodmaker.user.username }}
-                        </a>
-                    </p>
-                    <a href="{% url 'food_detail' food.id %}" class="btn btn-info mt-auto">View More</a>
+        <tr>
+            <!-- Business Card Section -->
+            <td>
+                <div class="business-card">
+                    {% if food.foodmaker.business_name %}
+                        <div class="card-front">
+                            <strong>{{ food.foodmaker.business_name }}</strong>
+                        </div>
+                        <div class="card-back">
+                            {% if food.foodmaker.bio %}
+                                <p>{{ food.foodmaker.bio }}</p>
+                            {% else %}
+                                <p>Business Card</p>
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        <p>Business Card</p>
+                    {% endif %}
                 </div>
-            </div>
-        </div>
-        {% empty %}
-            <p>No food items available.</p>
-        {% endfor %}
-    </div>
-</ul>
+            </td>
 
-{% if not food_items %}
-    <p>No food items found.</p>
-{% endif %}
+            <!-- Food Image -->
+            <td>
+                <img src="{{ food.food_image.url }}" class="img-thumbnail" width="150" height="150" alt="{{ food.title }}">
+            </td>
+
+            <!-- Food Details -->
+            <td>
+                <h5>{{ food.title }}</h5>
+                <p>{{ food.description|truncatewords:15 }}</p>
+                <p><strong>Price:</strong> ${{ food.price }}</p>
+                <a href="{% url 'food_detail' food.id %}" class="btn btn-info">View More</a>
+            </td>
+
+            <!-- FoodMaker Information -->
+            <td>
+                <p><strong>Website:</strong> 
+                    {% if food.foodmaker.website_url %}
+                        <a href="{{ food.foodmaker.website_url }}" target="_blank">{{ food.foodmaker.website_url }}</a>
+                    {% else %}
+                        None
+                    {% endif %}
+                </p>
+                <p><strong>Specialized in:</strong> {{ food.foodmaker.specialized_cuisines }}</p>
+                <p><strong>Preparation Time:</strong> {{ food.foodmaker.preparation_time }} mins</p>
+                {% if user.is_authenticated %}
+                <p><strong>Phone:</strong> {{ food.foodmaker.phone_number }}</p>
+                <p><strong>Email:</strong> {{ food.foodmaker.user.email }}</p>
+                {% endif %}
+                <a href="{% url 'foodmaker_profile' food.foodmaker.id %}" class="btn btn-secondary">See All Food Here</a>
+            </td>
+        </tr>
+        {% empty %}
+            <tr>
+                <td colspan="4">No food items available.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
 {% endblock %}

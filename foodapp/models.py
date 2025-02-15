@@ -55,6 +55,10 @@ class FoodMakerProfile(models.Model):
     city = models.CharField(max_length=100)
     zipcode = models.CharField(max_length=10)
     bio = models.TextField(blank=True)
+    website_url = models.URLField(blank=True, null=True)
+    specialized_cuisines = models.CharField(max_length=255, blank=True, null=True)
+    preparation_time = models.PositiveIntegerField(default=1)  # Hours
+
     business_name = models.CharField(max_length=100)
     address = models.CharField(max_length=255)
     phone_number = models.CharField(max_length=15)

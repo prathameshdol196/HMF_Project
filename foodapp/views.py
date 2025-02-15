@@ -106,16 +106,15 @@ def home(request):
         'selected_cities': selected_cities,
     })
 
-
 def select_food(request):
-    # Get search query and selected cuisines
+    # Get search query, selected cuisines, and selected cities
     query = request.GET.get('q', '')
     selected_cuisines = request.GET.getlist('cuisine')
     cities = [request.GET.get(f'city{i}', '') for i in range(1, 4)]
     selected_cities = [city for city in cities if city]
 
     # Start with all food items
-    food_items = FoodItem.objects.all()
+    food_items = FoodItem.objects.select_related('foodmaker').all()
 
     # Filter by search query
     if query:
@@ -131,13 +130,13 @@ def select_food(request):
     if selected_cities:
         food_items = food_items.filter(foodmaker__city__in=selected_cities)
 
+    # Pass results to the template
     return render(request, 'select_food.html', {
         'food_items': food_items,
         'selected_cuisines': selected_cuisines,
         'query': query,
         'selected_cities': selected_cities,
     })
-
 
 def about(request):
     return render(request, 'about.html')
