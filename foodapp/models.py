@@ -90,6 +90,8 @@ class FoodItem(models.Model):
     foodmaker = models.ForeignKey(FoodMakerProfile, on_delete=models.CASCADE, related_name="food_items")
     title = models.CharField(max_length=255)
     description = models.TextField()
+    ingredients = models.TextField(blank=True, null=True)  # New field for ingredients
+
     price = models.DecimalField(max_digits=10, decimal_places=2)
     cuisine = models.CharField(max_length=100)
 

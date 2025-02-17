@@ -435,6 +435,38 @@ def delete_food(request, food_id):
     return render(request, 'delete_food.html', {'food': food})
 
 
+@login_required
+def update_business_card(request, side):
+    if request.user.role != 'FoodMaker':
+        return redirect('home')
+
+    foodmaker_profile = request.user.foodmaker_profile
+
+    if request.method == 'POST':
+        # Handle front and back uploads
+        if 'business_card_front' in request.FILES:
+            foodmaker_profile.business_card_front = request.FILES['business_card_front']
+        if 'business_card_back' in request.FILES:
+            foodmaker_profile.business_card_back = request.FILES['business_card_back']
+        foodmaker_profile.save()
+        return redirect('foodmaker_dashboard')
+
+    return render(request, 'update_business_card.html', {'side': side})
+
+
+@login_required
+def delete_business_card(request):
+    if request.user.role != 'FoodMaker':
+        return redirect('home')
+
+    foodmaker_profile = request.user.foodmaker_profile
+    if foodmaker_profile.business_card_front:
+        foodmaker_profile.business_card_front.delete()
+    if foodmaker_profile.business_card_back:
+        foodmaker_profile.business_card_back.delete()
+    foodmaker_profile.save()
+    return redirect('foodmaker_dashboard')
+
 
 '''from django.http import JsonResponse
 from django.contrib import messages

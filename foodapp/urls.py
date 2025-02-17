@@ -32,6 +32,10 @@ urlpatterns = [
     path('update-food/<int:food_id>/', views.update_food, name='update_food'),
     path('delete-food/<int:food_id>/', views.delete_food, name='delete_food'),
 
+    path('update_business_card/<str:side>/', views.update_business_card, name='update_business_card'),
+    path('update_business_card/<str:side>/', views.update_business_card, name='update_business_card'),
+    path('delete_business_card/', views.delete_business_card, name='delete_business_card'),
+
 
 
     #path("order/<int:food_id>/", views.place_order, name="place_order"),

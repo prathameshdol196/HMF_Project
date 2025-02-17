@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Update Business Card</h2>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="business_card_front">Upload Front:</label>
+        <input type="file" name="business_card_front" class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="business_card_back">Upload Back:</label>
+        <input type="file" name="business_card_back" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>
+{% endblock %}
