@@ -207,11 +207,16 @@ def food_detail(request, food_id):
 
 def foodmaker_profile(request, foodmaker_id):
     foodmaker = get_object_or_404(FoodMakerProfile, id=foodmaker_id)
+
+    # Create Google Maps URL for the FoodMaker's address
+    maps_url = f"https://www.google.com/maps/search/?api=1&query={foodmaker.address.replace(' ', '+')}"
  
     food_items = FoodItem.objects.filter(foodmaker=foodmaker)  # Get their food items
+    
     return render(request, 'foodmaker_profile.html', {
         'foodmaker': foodmaker, 
-        'food_items': food_items
+        'food_items': food_items,
+        'maps_url': maps_url
         })
 
 

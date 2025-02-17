@@ -1,6 +1,44 @@
 {% extends 'base.html' %}
 {% block content %}
 
+<div class="container mt-4">
+    <h2 class="mb-3">{{ foodmaker.user.username }}'s Profile</h2>
+    <p><strong>Specialized Food:</strong> {{ foodmaker.specialized_food }}</p>
+    <p><strong>Order in Advance:</strong> {{ foodmaker.preparation_time }} hours</p>
+    <p><strong>Phone:</strong> {{ foodmaker.phone_number }}</p>
+    <p><strong>Email:</strong> {{ foodmaker.email }}</p>
+    <p><strong>Address:</strong> {{ foodmaker.address }} - 
+        <a href="{{ maps_url }}" target="_blank">Click here to view on map</a>
+    </p>
+    <p><strong>City:</strong> {{ foodmaker.city }}</p>
+    <p><strong>Zip Code:</strong> {{ foodmaker.zipcode }}</p>
+    <p><strong>business Name:</strong> {{ foodmaker.business_name }}</p>
+
+    <h3>Food Items by {{ foodmaker.user.username }}</h3>
+
+    {% if food_items %}
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for food in food_items %}
+        <div class="col">
+            <div class="card shadow-sm">
+                <img src="{{ food.food_image.url }}" class="card-img-top" alt="{{ food.title }}" style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ food.title }}</h5>
+                    <p class="card-text">{{ food.description|truncatewords:10 }}</p>
+                    <p class="card-text"><strong>Ingredients:</strong> {{ food.ingredients }}</p>
+                    <p class="card-text"><strong>Price: ${{ food.price }}</strong></p>
+                    <a href="{% url 'food_detail' food.id %}" class="btn btn-info">View More</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <p class="text-muted">This FoodMaker hasn't added any food items yet.</p>
+    {% endif %}
+
+</div>
+
 <h2>{{ foodmaker.user.username }}'s Profile</h2>
 <p><strong>First Name:</strong> {{ foodmaker.first_name }}</p>
 <p><strong>Last Name:</strong> {{ foodmaker.last_name }}</p>
