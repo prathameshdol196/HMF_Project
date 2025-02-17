@@ -114,7 +114,7 @@ def select_food(request):
     selected_cities = [city for city in cities if city]
 
     # Start with all food items and filter based on user inputs
-    # foodmakers = FoodMakerProfile.objects.prefetch_related('food_items').all()
+    foodmakers = FoodMakerProfile.objects.prefetch_related('food_items').all()
     
     # Start with all food items
     food_items = FoodItem.objects.select_related('foodmaker').all()
