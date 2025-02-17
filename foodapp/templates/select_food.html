@@ -17,71 +17,201 @@
     <thead>
         <tr>
             <th>FoodMaker Business Card</th>
-            <th>Food Image</th>
-            <th>Food Details</th>
-            <th>FoodMaker Information</th>
+            <th>Food Images</th>
         </tr>
     </thead>
     <tbody>
-        {% for food in food_items %}
-        <tr>
-            <!-- Business Card Section -->
-            <td>
-                <div class="business-card">
-                    {% if food.foodmaker.business_name %}
-                        <div class="card-front">
-                            <strong>{{ food.foodmaker.business_name }}</strong>
+        {% for foodmaker in foodmakers %}
+            {% for food in foodmaker.food_items.all %}
+            <!-- Business Card with Flip Effect -->
+                <td>
+                    <div class="card-container ">
+                        <div class="card">
+                            <!-- Front of the business card -->
+                            <div class="card-front">
+                                {% if foodmaker.business_card_front %}
+                                    <img src="{{ foodmaker.business_card_front.url }}" alt="Business Card Front" class="card-img">
+                                {% else %}
+                                    <p class="default-text text-center">No Business Card Available</p>
+                                {% endif %}
+                            </div>
+                            <!-- Back of the business card -->
+                            <div class="card-back">
+                                {% if foodmaker.business_card_back %}
+                                    <img src="{{ foodmaker.business_card_back.url }}" alt="Business Card Back" class="card-img">
+                                {% else %}
+                                    <p class="default-text text-center">No Back Side</p>
+                                {% endif %}
+                            </div>
                         </div>
-                        <div class="card-back">
-                            {% if food.foodmaker.bio %}
-                                <p>{{ food.foodmaker.bio }}</p>
-                            {% else %}
-                                <p>Business Card</p>
-                            {% endif %}
+                        
+                        <!-- New Information between Card and Button -->
+                        <div class="foodmaker-info mt-3">
+                            <p><strong>Specialized in food:</strong> {{ foodmaker.specialized_cuisines|join:', ' }}</p>
+                            <p><strong>Food Preparation Time:</strong> {{ foodmaker.preparation_time }} Hours</p>
+                            <p><strong>Contact Phone Number:</strong> {{ foodmaker.phone_number }}</p>
                         </div>
-                    {% else %}
-                        <p>Business Card</p>
-                    {% endif %}
-                </div>
-            </td>
+                        
+                        <!-- Button should be placed below the card -->
+                        <a href="{% url 'foodmaker_profile' foodmaker.id %}" class="btn btn-secondary mt-2">See All Food Here</a>
+                    </div>
+                </td>
 
-            <!-- Food Image -->
-            <td>
-                <img src="{{ food.food_image.url }}" class="img-thumbnail" width="150" height="150" alt="{{ food.title }}">
-            </td>
 
-            <!-- Food Details -->
-            <td>
-                <h5>{{ food.title }}</h5>
-                <p>{{ food.description|truncatewords:15 }}</p>
-                <p><strong>Price:</strong> ${{ food.price }}</p>
-                <a href="{% url 'food_detail' food.id %}" class="btn btn-info">View More</a>
-            </td>
-
-            <!-- FoodMaker Information -->
-            <td>
-                <p><strong>Website:</strong> 
-                    {% if food.foodmaker.website_url %}
-                        <a href="{{ food.foodmaker.website_url }}" target="_blank">{{ food.foodmaker.website_url }}</a>
-                    {% else %}
-                        None
-                    {% endif %}
-                </p>
-                <p><strong>Specialized in:</strong> {{ food.foodmaker.specialized_cuisines }}</p>
-                <p><strong>Preparation Time:</strong> {{ food.foodmaker.preparation_time }} mins</p>
-                {% if user.is_authenticated %}
-                <p><strong>Phone:</strong> {{ food.foodmaker.phone_number }}</p>
-                <p><strong>Email:</strong> {{ food.foodmaker.user.email }}</p>
-                {% endif %}
-                <a href="{% url 'foodmaker_profile' food.foodmaker.id %}" class="btn btn-secondary">See All Food Here</a>
-            </td>
-        </tr>
-        {% empty %}
-            <tr>
-                <td colspan="4">No food items available.</td>
+                <!-- Food Images (Now Showing 3 Images) -->
+                <td>
+                    <div class="food-images">
+                        {% if food.food_image %}
+                            <img src="{{ food.food_image.url }}" class="food-image" width="200" height="200" alt="{{ food.title }}">
+                        {% endif %}
+                        {% if food.food_image2 %}
+                            <img src="{{ food.food_image2.url }}" class="food-image" width="200" height="200" alt="{{ food.title }}">
+                        {% endif %}
+                        {% if food.food_image3 %}
+                            <img src="{{ food.food_image3.url }}" class="food-image" width="200" height="200" alt="{{ food.title }}">
+                        {% endif %}
+                    </div>
+                </td>
             </tr>
+            {% empty %}
+            <tr>
+                <td colspan="2">No food items available</td>
+            </tr>
+            {% endfor %}
+        {% empty %}
+        <tr>
+            <td colspan="2">No foodmakers found.</td>
+        </tr>
         {% endfor %}
     </tbody>
 </table>
+
+<!-- Flip Card CSS -->
+<style>
+/* Business Card Container */
+.card-container {
+    perspective: 1000px;
+    width: 350px; /* Standard width */
+    max-height: 250px; /* Adjusted height */
+    display: inline-block; /* Ensures it stays inside its table cell */
+    margin: 0 auto; /* Centers the card */
+    min-width: 350px;
+    min-height: 250px; /* Adjusted height */
+}
+
+/* Card Flip Effect */
+.card {
+    width: 100%;
+    max-height: 200px;
+    min-height: 200px;
+    min-width: 350px;
+    max-width: 350px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+}
+
+.card-container:hover .card {
+    transform: rotateY(180deg);
+}
+
+/* Front & Back Styles */
+.card-front, .card-back {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    backface-visibility: hidden;
+}
+
+.card-back {
+    transform: rotateY(180deg);
+}
+
+/* Image Inside Card */
+.card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures proper scaling */
+    border-radius: 5px;
+}
+
+/* Button Below the Card */
+.card-container .btn {
+    margin-top: 10px; /* Space between card and button */
+    width: 100%;
+}
+
+/* Ensure the button appears below the card */
+.foodmaker-button {
+    text-align: center;
+    margin-top: 15px;
+}
+
+/* Food Images */
+.food-images {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.food-image {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
+/* For Mobile Devices */
+@media (max-width: 768px) {
+    /* Only adjust the food images layout for mobile */
+    .food-images {
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto; /* Allow horizontal scrolling if needed */
+        justify-content: flex-start;
+    }
+
+    .food-image {
+        width: 150px; /* Adjust size for mobile */
+        height: 150px;
+    }
+
+    /* Adjust Business Card on smaller screens */
+    .card-container {
+        width: 100%; /* Make card container responsive */
+        min-width: 300px; /* Prevent card from shrinking too much */
+    }
+
+    /* Ensure table doesn't affect nav and footer */
+    table {
+        width: 100%; /* Make sure the table takes full width */
+    }
+}
+
+
+/* New foodmaker info styling */
+.foodmaker-info {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 15px; /* Added margin-bottom for spacing */
+}
+
+.foodmaker-info p {
+    margin: 5px 0;
+}
+
+.foodmaker-info a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+/* Adjust the margin of the button */
+.card-container .btn {
+    margin-top: 10px; /* Space between card and button */
+    width: 100%;
+    margin-bottom: 20px; /* Adds space between the button and the bottom of the card */
+}
+
+</style>
 
 {% endblock %}

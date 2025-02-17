@@ -113,6 +113,9 @@ def select_food(request):
     cities = [request.GET.get(f'city{i}', '') for i in range(1, 4)]
     selected_cities = [city for city in cities if city]
 
+    # Start with all food items and filter based on user inputs
+    # foodmakers = FoodMakerProfile.objects.prefetch_related('food_items').all()
+    
     # Start with all food items
     food_items = FoodItem.objects.select_related('foodmaker').all()
 
@@ -130,13 +133,20 @@ def select_food(request):
     if selected_cities:
         food_items = food_items.filter(foodmaker__city__in=selected_cities)
 
+    # Get only the FoodMakers that have matching food items
+    foodmakers = FoodMakerProfile.objects.filter(id__in=food_items.values_list('foodmaker_id', flat=True)).prefetch_related("food_items")
+    
+
     # Pass results to the template
     return render(request, 'select_food.html', {
         'food_items': food_items,
         'selected_cuisines': selected_cuisines,
         'query': query,
+        'foodmakers': foodmakers,
         'selected_cities': selected_cities,
     })
+
+
 
 def about(request):
     return render(request, 'about.html')

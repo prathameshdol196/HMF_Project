@@ -18,14 +18,12 @@ body {
     font-family: 'Open Sans', sans-serif; 
     background-color: #f8f9fa;
     color: #333;
-    padding-left: 5%; /* Add padding to the left of the body */
-    padding-right: 5%; /* Add padding to the right of the body */
+    /*padding-left: 5%; /* Add padding to the left of the body */
+    /*padding-right: 5%; /* Add padding to the right of the body */
     margin-left: 5%;
     margin-right: 5%;
 }
 
-/* Container Padding */
-.container {}
 
 
 /* Navbar Padding */
@@ -49,9 +47,16 @@ body {
 
 /* Footer Styles */
 footer {
-    margin-top: auto;
+    /*margin-top: auto;
+    background-color: #f0f0f0;
+    border-top: 1px solid #ddd;*/
+  
     background-color: #f0f0f0;
     border-top: 1px solid #ddd;
+    position: relative;
+    
+    width: 100%;
+  
 }
 
 /* Customizing Bootstrap Components */
@@ -65,8 +70,10 @@ footer {
 }
 
 section {
-    padding-top: 15%;
-    padding-bottom: 15%;
+    /*padding-top: 15%;
+    padding-bottom: 15%;*/
+    padding-top: 5%; /* Adjusted padding */
+    padding-bottom: 5%; /* Adjusted padding */
     
 }
 
@@ -90,7 +97,7 @@ section {
 /* ################################################# Food Cards ################################################## */
 
 .card {
-  min-height: 500px; /* Set a minimum height for the cards */
+  min-height: auto; /* Set a minimum height for the cards */
   display: flex; /* Use flexbox for better height control */
   flex-direction: column; 
 }
@@ -371,5 +378,6 @@ animation: fadeIn 0.5s ease-in-out;
 animation: fadeIn 0.5s ease-in-out; 
 }
 /* ####################################################################################################################################### */
+
 
 
