@@ -9,6 +9,7 @@ from .models import PromoCode
 from django.utils.timezone import now
 from django.contrib import messages
 from django.db.models import Q
+from django.core.mail import send_mail
 
 from .models import User
 
@@ -112,9 +113,14 @@ def select_food(request):
     selected_cuisines = request.GET.getlist('cuisine')
     cities = [request.GET.get(f'city{i}', '') for i in range(1, 4)]
     selected_cities = [city for city in cities if city]
+    state = request.GET.get('state', '')
 
     # Start with all food items and filter based on user inputs
-    foodmakers = FoodMakerProfile.objects.prefetch_related('food_items').all()
+    #foodmakers = FoodMakerProfile.objects.prefetch_related('food_items').all()
+
+    # Start with all food items and foodmakers 
+    food_items = FoodItem.objects.select_related('foodmaker').all()
+    foodmakers = FoodMakerProfile.objects.all()
     
     # Start with all food items
     food_items = FoodItem.objects.select_related('foodmaker').all()
@@ -131,7 +137,22 @@ def select_food(request):
 
     # Filter by selected cities
     if selected_cities:
-        food_items = food_items.filter(foodmaker__city__in=selected_cities)
+        #food_items = food_items.filter(foodmaker__city__in=selected_cities)
+        # Get only food items related to those FoodMakers
+        food_items = FoodItem.objects.filter(foodmaker__in=foodmakers)
+
+    # Apply state filter
+    if state:
+        foodmakers = foodmakers.filter(state=state)
+        food_items = food_items.filter(foodmaker__in=foodmakers)
+    
+    # If no filters are applied, return all food items
+    if not (query or selected_cuisines or selected_cities or state):
+        food_items = FoodItem.objects.all()
+
+    #foodmakers = foodmakers.filter(city__in=selected_cities)
+    # Get unique FoodMakers from filtered food_items
+    #foodmakers = FoodMakerProfile.objects.filter(id__in=food_items.values_list('foodmaker_id', flat=True).distinct())
 
     # Pass results to the template
     return render(request, 'select_food.html', {
@@ -140,6 +161,7 @@ def select_food(request):
         'query': query,
         'foodmakers': foodmakers,
         'selected_cities': selected_cities,
+        'state': state,
     })
 
 

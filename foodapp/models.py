@@ -60,6 +60,11 @@ class FoodMakerProfile(models.Model):
     preparation_time = models.PositiveIntegerField(default=1)  # Hours
 
     business_name = models.CharField(max_length=100)
+
+    business_card_front = models.ImageField(upload_to='business_cards/', blank=True, null=True)
+    business_card_back = models.ImageField(upload_to='business_cards/', blank=True, null=True)
+    
+
     address = models.CharField(max_length=255)
     phone_number = models.CharField(max_length=15)
     state = models.CharField(max_length=2, choices=US_STATES)

@@ -12,6 +12,9 @@
 {% if query %}
     <p>Showing results for: <strong>"{{ query }}"</strong></p>
 {% endif %}
+{% if stste %}
+    <p>Showing results for: <strong>"{{ stste }}"</strong></p>
+{% endif %}
 
 <table class="table table-bordered">
     <thead>
@@ -47,6 +50,7 @@
                         
                         <!-- New Information between Card and Button -->
                         <div class="foodmaker-info mt-3">
+                            <p><strong>Name:</strong> {{ foodmaker.first_name }} {{ foodmaker.last_name }}</p>
                             <p><strong>Specialized in food:</strong> {{ foodmaker.specialized_cuisines|join:', ' }}</p>
                             <p><strong>Food Preparation Time:</strong> {{ foodmaker.preparation_time }} Hours</p>
                             
