@@ -95,16 +95,17 @@ def home(request):
 
     # Get distinct values for dropdowns
     all_cities = FoodItem.objects.values_list('foodmaker__city', flat=True).distinct()
-    states = FoodItem.objects.values_list('foodmaker__state', flat=True).distinct()
+    all_states = FoodItem.objects.values_list('foodmaker__state', flat=True).distinct()
     
     return render(request, 'home.html', {
         'food_items': food_items,
         'cuisines': cuisines,
         'cities': all_cities,
-        'states': states,
+        'states': all_states,
         'selected_cuisines': selected_cuisines,
         'query': query,
         'selected_cities': selected_cities,
+        'state': state,
     })
 
 def select_food(request):
@@ -115,16 +116,20 @@ def select_food(request):
     selected_cities = [city for city in cities if city]
     state = request.GET.get('state', '')
 
-    # Start with all food items and filter based on user inputs
-    #foodmakers = FoodMakerProfile.objects.prefetch_related('food_items').all()
-
     # Start with all food items and foodmakers 
-    food_items = FoodItem.objects.select_related('foodmaker').all()
     foodmakers = FoodMakerProfile.objects.all()
     
-    # Start with all food items
-    food_items = FoodItem.objects.select_related('foodmaker').all()
+    # Apply state filter
+    if state:
+        foodmakers = foodmakers.filter(state=state)
 
+    # Filter by selected cities
+    if selected_cities:
+        foodmakers = foodmakers.filter(city__in=selected_cities)
+
+    # Get food items related to the filtered foodmakers
+    food_items = FoodItem.objects.filter(foodmaker__in=foodmakers)
+    
     # Filter by search query
     if query:
         food_items = food_items.filter(
@@ -135,24 +140,12 @@ def select_food(request):
     if selected_cuisines:
         food_items = food_items.filter(cuisine__in=selected_cuisines)
 
-    # Filter by selected cities
-    if selected_cities:
-        #food_items = food_items.filter(foodmaker__city__in=selected_cities)
-        # Get only food items related to those FoodMakers
-        food_items = FoodItem.objects.filter(foodmaker__in=foodmakers)
-
-    # Apply state filter
-    if state:
-        foodmakers = foodmakers.filter(state=state)
-        food_items = food_items.filter(foodmaker__in=foodmakers)
-    
     # If no filters are applied, return all food items
     if not (query or selected_cuisines or selected_cities or state):
         food_items = FoodItem.objects.all()
 
-    #foodmakers = foodmakers.filter(city__in=selected_cities)
     # Get unique FoodMakers from filtered food_items
-    #foodmakers = FoodMakerProfile.objects.filter(id__in=food_items.values_list('foodmaker_id', flat=True).distinct())
+    foodmakers = FoodMakerProfile.objects.filter(id__in=food_items.values_list('foodmaker_id', flat=True).distinct())
 
     # Pass results to the template
     return render(request, 'select_food.html', {
@@ -163,8 +156,6 @@ def select_food(request):
         'selected_cities': selected_cities,
         'state': state,
     })
-
-
 
 def about(request):
     return render(request, 'about.html')
