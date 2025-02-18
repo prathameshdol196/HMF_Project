@@ -1,8 +1,22 @@
 {% extends 'base.html' %}
 {% block content %}
+
+<section>
+    {% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+    {% endif %}
+
+</section>
+
 <section>
     <h2 class="mb-4">FoodMaker Dashboard</h2>
     <h3 class="mb-3">{{ user.first_name }}</h3>
+    <a href="{% url 'update_profile' %}" class="btn btn-primary mb-3">Update Profile</a>
 
     <section>
         <!-- Business Card Section -->
@@ -42,7 +56,6 @@
         <div class="col">
             <div class="card h-100 shadow-sm">
                 <!-- Image Slider -->
-                                <!-- Food Image Slider -->
                 <div id="carousel{{ food.id }}" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         {% if food.food_image %}
@@ -64,20 +77,21 @@
                     <!-- Left and Right Arrows -->
                     <button class="carousel-control-prev" type="button" data-bs-target="#carousel{{ food.id }}" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden"><</span>
+                        <span class="visually-hidden">Previous</span>
                     </button>
                     <button class="carousel-control-next" type="button" data-bs-target="#carousel{{ food.id }}" data-bs-slide="next">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">></span>
+                        <span class="visually-hidden">Next</span>
                     </button>
                 </div>
-                <div class="card-body">
+                <div class="card-body" style="height: 300px;">
                     <h5 class="card-title">{{ food.title }}</h5>
                     <p class="card-text text-muted">{{ food.description|truncatewords:15 }}</p>
                     <p class="card-text"><strong>Ingredients:</strong> {{ food.ingredients|truncatewords:10 }}</p>
                     <p class="card-text fw-bold">Price: ${{ food.price }}</p>
                 </div>
                 <div class="card-footer d-flex justify-content-between">
+                    <a href="{% url 'food_detail' food.id %}" class="btn btn-info">View More</a>
                     <a href="{% url 'update_food' food.id %}" class="btn btn-warning btn-sm">Update</a>
                     <a href="{% url 'delete_food' food.id %}" class="btn btn-danger btn-sm">Delete</a>
                 </div>
@@ -85,9 +99,11 @@
         </div>
         {% endfor %}
     </div>
-    {% else %}
-        <p class="text-muted">You haven't added any food items yet.</p>
-    {% endif %}
+{% else %}
+    <p class="text-muted">You haven't added any food items yet.</p>
+{% endif %}
+
+
     </section>
 
 </section>

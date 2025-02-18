@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<section class="container mt-5">
+    <div class="card shadow-lg p-4">
+        <h2 class="text-center mb-4">Update Your Profile</h2>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+                <!-- Left Column -->
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="{{ form.first_name.id_for_label }}" class="fw-bold">First Name</label>
+                        {{ form.first_name }}
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="{{ form.last_name.id_for_label }}" class="fw-bold">Last Name</label>
+                        {{ form.last_name }}
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="{{ form.business_name.id_for_label }}" class="fw-bold">Business Name</label>
+                        {{ form.business_name }}
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="{{ form.website_url.id_for_label }}" class="fw-bold">Website URL</label>
+                        {{ form.website_url }}
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="{{ form.specialized_cuisines.id_for_label }}" class="fw-bold">Specialized Cuisines</label>
+                        {{ form.specialized_cuisines }}
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="{{ form.preparation_time.id_for_label }}" class="fw-bold">Preparation Time (hours)</label>
+                        {{ form.preparation_time }}
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="{{ form.street_name.id_for_label }}" class="fw-bold">Street Name</label>
+                        {{ form.street_name }}
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="{{ form.address.id_for_label }}" class="fw-bold">Address</label>
+                        {{ form.address }}
+                    </div>
+                    
+                    <div class="form-group mb-3">
+                        <label for="{{ form.city.id_for_label }}" class="fw-bold">City</label>
+                        {{ form.city }}
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="{{ form.state.id_for_label }}" class="fw-bold">State</label>
+                        {{ form.state }}
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="{{ form.zipcode.id_for_label }}" class="fw-bold">Zipcode</label>
+                        {{ form.zipcode }}
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="{{ form.phone_number.id_for_label }}" class="fw-bold">Phone Number</label>
+                        {{ form.phone_number }}
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="{{ form.bio.id_for_label }}" class="fw-bold">Bio</label>
+                        {{ form.bio }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary px-4">Update Profile</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+<style>
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+    
+    input, textarea, select {
+        width: 100%;
+        padding: 8px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+    
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+        font-size: 18px;
+        font-weight: bold;
+    }
+    
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+    
+    .card {
+        border-radius: 10px;
+    }
+</style>
+
+
+{% endblock %}

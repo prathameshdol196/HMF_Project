@@ -6,7 +6,7 @@
     <p><strong>Specialized Food:</strong> {{ foodmaker.specialized_food }}</p>
     <p><strong>Order in Advance:</strong> {{ foodmaker.preparation_time }} hours</p>
     <p><strong>Phone:</strong> {{ foodmaker.phone_number }}</p>
-    <p><strong>Email:</strong> {{ foodmaker.email }}</p>
+    <p><strong>Email:</strong> {{ foodmaker.user.email }}</p>
     <p><strong>Address:</strong> {{ foodmaker.address }} - 
         <a href="{{ maps_url }}" target="_blank">Click here to view on map</a>
     </p>
@@ -16,6 +16,7 @@
 
     <h3 style="margin-top: 5%;">Food Items by {{ foodmaker.user.username }}</h3>
 
+    <!--
     {% if food_items %}
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         {% for food in food_items %}
@@ -35,6 +36,57 @@
     </div>
     {% else %}
         <p class="text-muted">This FoodMaker hasn't added any food items yet.</p>
+    {% endif %}
+-->
+        {% if food_items %}
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            {% for food in food_items %}
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <!-- Image Slider -->
+                    <div id="carousel{{ food.id }}" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            {% if food.food_image %}
+                                <div class="carousel-item active">
+                                    <img src="{{ food.food_image.url }}" class="d-block w-100" alt="{{ food.title }}" style="height: 200px; object-fit: cover;">
+                                </div>
+                            {% endif %}
+                            {% if food.food_image2 %}
+                                <div class="carousel-item">
+                                    <img src="{{ food.food_image2.url }}" class="d-block w-100" alt="{{ food.title }}" style="height: 200px; object-fit: cover;">
+                                </div>
+                            {% endif %}
+                            {% if food.food_image3 %}
+                                <div class="carousel-item">
+                                    <img src="{{ food.food_image3.url }}" class="d-block w-100" alt="{{ food.title }}" style="height: 200px; object-fit: cover;">
+                                </div>
+                            {% endif %}
+                        </div>
+                        <!-- Left and Right Arrows -->
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carousel{{ food.id }}" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carousel{{ food.id }}" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                    <div class="card-body" style="height: 300px;">
+                        <h5 class="card-title">{{ food.title }}</h5>
+                        <p class="card-text text-muted">{{ food.description|truncatewords:15 }}</p>
+                        <p class="card-text"><strong>Ingredients:</strong> {{ food.ingredients|truncatewords:10 }}</p>
+                        <p class="card-text fw-bold">Price: ${{ food.price }}</p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between">
+                        <a href="{% url 'food_detail' food.id %}" class="btn btn-info">View More</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-muted">{{ foodmaker.user.username }} haven't added any food items yet.</p>
     {% endif %}
 
     <a href="{% url 'home' %}" class="btn btn-secondary" style="margin-top: 5%;" >Back to Home</a>

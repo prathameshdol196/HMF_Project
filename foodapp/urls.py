@@ -31,6 +31,8 @@ urlpatterns = [
     path('add-food/', views.add_food, name='add_food'),
     path('update-food/<int:food_id>/', views.update_food, name='update_food'),
     path('delete-food/<int:food_id>/', views.delete_food, name='delete_food'),
+    path('update_profile/', views.update_profile, name='update_profile'),
+
 
     path('update_business_card/<str:side>/', views.update_business_card, name='update_business_card'),
     path('update_business_card/<str:side>/', views.update_business_card, name='update_business_card'),

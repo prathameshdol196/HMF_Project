@@ -364,6 +364,31 @@ def foodmaker_dashboard(request):
     food_items = FoodItem.objects.filter(foodmaker=request.user.foodmaker_profile)
     return render(request, 'foodmaker_dashboard.html', {'food_items': food_items})
 
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from .forms import FoodMakerProfileForm
+from .models import FoodMakerProfile
+#
+@login_required
+def update_profile(request):
+    if request.user.role != 'FoodMaker':
+        return redirect('home')
+
+    foodmaker_profile = request.user.foodmaker_profile
+
+    if request.method == 'POST':
+        form = FoodMakerProfileForm(request.POST, request.FILES, instance=foodmaker_profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Profile updated successfully!")
+            return redirect('foodmaker_dashboard')
+        else:
+            print(form.errors)  # Print form errors to the console
+    else:
+        form = FoodMakerProfileForm(instance=foodmaker_profile)
+
+    return render(request, 'update_profile.html', {'form': form})
+
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -385,6 +410,7 @@ def add_food(request):
             food = form.save(commit=False)
             food.foodmaker = request.user.foodmaker_profile  # FIXED ATTRIBUTE
             food.save()
+            messages.success(request, "Food added Successfully")
             return redirect('foodmaker_dashboard')  # Redirect after adding
     else:
         form = FoodForm()
@@ -407,6 +433,7 @@ def update_food(request, food_id):
         form = FoodForm(request.POST, request.FILES, instance=food)
         if form.is_valid():
             form.save()
+            messages.success(request, "Food updated successfully!")
             return redirect('foodmaker_dashboard')  # Redirect after update
     else:
         form = FoodForm(instance=food)
@@ -430,6 +457,7 @@ def delete_food(request, food_id):
 
     if request.method == 'POST':
         food.delete()
+        messages.success(request, "Food Deleted successfully!")
         return redirect('foodmaker_dashboard')  # Redirect after deletion
 
     return render(request, 'delete_food.html', {'food': food})
@@ -449,6 +477,7 @@ def update_business_card(request, side):
         if 'business_card_back' in request.FILES:
             foodmaker_profile.business_card_back = request.FILES['business_card_back']
         foodmaker_profile.save()
+        messages.success(request, "Business Card updated successfully!")
         return redirect('foodmaker_dashboard')
 
     return render(request, 'update_business_card.html', {'side': side})
@@ -465,6 +494,7 @@ def delete_business_card(request):
     if foodmaker_profile.business_card_back:
         foodmaker_profile.business_card_back.delete()
     foodmaker_profile.save()
+    messages.success(request, "Business Card Deleted successfully!")
     return redirect('foodmaker_dashboard')
 
 
