@@ -6,7 +6,6 @@
 {% load static %}
 
 {% if not user.is_authenticated %}
-
 <section class="section-with-image" 
 style="background-image: 
     linear-gradient(
@@ -16,7 +15,7 @@ style="background-image:
         url('{% static 'images/background.jpg' %}')"> 
     
     
-    <div class="container">
+    <div class="container" style="padding-top: 15%; padding-bottom: 15%;">
       <div class="row justify-content-center">
         <div class="col-md-8 text-center"> 
           <h1>Connecting food lovers with local home chefs.</h1>
@@ -27,10 +26,10 @@ style="background-image:
       </div>
     </div>
   </section>
-
 {% endif %}
 
-<section class="container mt-4">
+
+<section class="container mt-4" style="padding-top: 15%; padding-bottom: 15%;">
     <div class="text-box p-4 bg-light border rounded">
         <p>Dummy text goes here. This is a placeholder for description. Dummy text goes here. Dummy text.</p>
         <p>More dummy text for 6 rows. This will be replaced later with actual content. More dummy text.</p>
@@ -40,7 +39,7 @@ style="background-image:
 </section>
 
 
-<section class="container mt-4">
+<section class="container mt-4" style="padding-top: 15%; padding-bottom: 15%;">
     <form id="foodSearchForm" action="{% url 'select_food' %}" method="GET" target="_blank">
         <label class="font-weight-bold">What do you want to eat tonight?</label>
         <input type="text" name="q" value="{{ query|default:'' }}" placeholder="Type your favourite dish..." class="form-control">
@@ -102,6 +101,4 @@ style="background-image:
 
 
 
-</div>
-</section>
 {% endblock %}

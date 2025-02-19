@@ -13,6 +13,7 @@ urlpatterns = [
 
     path('about/', views.about, name='about'),
 
+    path('contact/', views.contact_us, name='contact_us'),
 
     path('register/', views.register, name='register'),  # Main registration page
     path('register/foodmaker/', views.register_foodmaker, name='register_foodmaker'),

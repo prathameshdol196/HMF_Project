@@ -54,3 +54,23 @@ class FoodMakerProfileForm(forms.ModelForm):
             'business_name', 'address', 'phone_number', 'state', 'address'
         ]
 
+
+class ContactForm(forms.Form):
+    WHO_CHOICES = [
+        ('subscriber', 'Subscriber'),
+        ('want_to_join', 'Want to Join'),
+    ]
+
+    ISSUE_CHOICES = [
+        ('general', 'General Questions'),
+        ('website_issue', 'Website Issue'),
+        ('login_issue', 'Account Login Issue'),
+        ('billing_issue', 'Account Billing Issue'),
+        ('other', 'Other'),
+    ]
+
+    name = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
+    who_are_you = forms.ChoiceField(choices=WHO_CHOICES, widget=forms.Select(attrs={'class': 'form-control'}))
+    issue_type = forms.ChoiceField(choices=ISSUE_CHOICES, widget=forms.Select(attrs={'class': 'form-control'}))
+    message = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 5}))

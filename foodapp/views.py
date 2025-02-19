@@ -498,6 +498,38 @@ def delete_business_card(request):
     return redirect('foodmaker_dashboard')
 
 
+from .forms import ContactForm
+def contact_us(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            # Get form data
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            who_are_you = form.cleaned_data['who_are_you']
+            issue_type = form.cleaned_data['issue_type']
+            message = form.cleaned_data['message']
+
+            # Send email
+            send_mail(
+                subject=f"New Contact Form Submission: {issue_type}",
+                message=f"Name: {name}\nEmail: {email}\n"
+                        f"Who: {who_are_you}\n"
+                        f"Issue: {issue_type}\n"
+                        f"Message:\n{message}",
+                from_email='your_email@gmail.com',
+                recipient_list=['your_email@gmail.com'],  # Change this to your email
+                fail_silently=False,
+            )
+
+            messages.success(request, "Your message has been sent successfully!")
+            return redirect('contact_us')
+
+    else:
+        form = ContactForm()
+
+    return render(request, 'contact_us.html', {'form': form})
+
 '''from django.http import JsonResponse
 from django.contrib import messages
 from decimal import Decimal
